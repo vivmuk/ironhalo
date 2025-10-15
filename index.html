@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>The Iron Halo — Spandan Shah</title>
+  <meta name="description" content="The official site for The Iron Halo by Spandan Shah: origin story, themes, sample, and buy links." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='40' stroke='%23f59e0b' stroke-width='6' fill='none'/><circle cx='50' cy='50' r='3' fill='%23f59e0b'/></svg>">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Subtle animated grain */
+    .grain:before{
+      pointer-events:none;content:"";position:fixed;inset:0;
+      background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" stitchTiles="stitch"/></filter><rect width="300" height="300" filter="url(%23n)" opacity="0.05"/></svg>');
+      mix-blend-mode:overlay;opacity:.15;animation:grain 8s steps(10) infinite;
+    }
+    @keyframes grain {0%{transform:translate(0,0)}10%{transform:translate(-5%,-5%)}20%{transform:translate(-10%,5%)}30%{transform:translate(5%,-10%)}40%{transform:translate(-5%,15%)}50%{transform:translate(-10%,5%)}60%{transform:translate(15%,0)}70%{transform:translate(0,10%)}80%{transform:translate(-15%,0)}90%{transform:translate(10%,5%)}100%{transform:translate(5%,0)}}
+    /* Halo "deploy" particles */
+    .spark { position:absolute; width:6px; height:6px; border-radius:50%; background:#fff; opacity:.9; box-shadow: 0 0 10px #fff, 0 0 20px var(--accent); }
+    .halo-ring { position:fixed; border-radius:50%; border:3px solid var(--accent); pointer-events:none; z-index:9999; box-shadow: 0 0 20px var(--accent), inset 0 0 20px var(--accent); }
+    .screen-flash { position:fixed; inset:0; pointer-events:none; z-index:9998; }
+    .parallax { background-attachment: fixed; background-size: cover; background-position:center; }
+    .glass { background: rgba(255,255,255,.08); backdrop-filter: blur(8px); transition: all 0.5s ease; }
+    .shadow-soft{ box-shadow: 0 10px 30px rgba(0,0,0,.25); }
+    .divider { height:1px; background: linear-gradient(90deg,transparent,rgba(255,255,255,.25),transparent); }
+    .crane path { transform-origin:center; animation: float 6s ease-in-out infinite; }
+    @keyframes float { 0%,100%{ transform: translateY(0) } 50%{ transform: translateY(-6px) } }
+    @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-10px); } 75% { transform: translateX(10px); } }
+    @keyframes pulse-grow { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+    @keyframes theme-flash { 0% { opacity: 0; } 50% { opacity: 0.3; } 100% { opacity: 0; } }
+    /* Theme tokens */
+    :root{ --bg:#0b0e12; --fg:#e9edf3; --muted:#aab3c4; --accent:#f59e0b; --accent-2:#60a5fa; transition: all 0.5s ease; }
+    .fear{ --accent:#ef4444; --accent-2:#7dd3fc; filter: saturate(130%) brightness(1.1); }
+    body{ background:linear-gradient(#0b0e12,#11151b); color:var(--fg); scroll-behavior:smooth; transition: all 0.5s ease; }
+    a{ color:var(--accent-2); transition: all 0.3s ease; }
+    a:hover{ color:var(--accent); }
+    /* Image transitions */
+    img { transition: transform 0.3s ease, filter 0.3s ease; }
+    figure:hover img { transform: scale(1.02); filter: brightness(1.1); }
+    /* Smooth reveal */
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.active { opacity: 1; transform: translateY(0); }
+    /* Custom scrollbar */
+    ::-webkit-scrollbar { width: 10px; }
+    ::-webkit-scrollbar-track { background: #0b0e12; }
+    ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 5px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--accent-2); }
+  </style>
+</head>
+<body class="grain selection:bg-amber-300/30 selection:text-amber-950">
+  <!-- HERO -->
+  <header class="relative parallax" style="background-image:url('Gemini_Generated_Image_46gduv46gduv46gd (2).png');">
+    <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-[#0b0e12]"></div>
+    <nav class="relative z-10 max-w-6xl mx-auto px-6 py-5 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <svg class="w-8 h-8 text-amber-400" viewBox="0 0 100 100" fill="currentColor" aria-hidden="true"><circle cx="50" cy="50" r="40" stroke="currentColor" stroke-width="6" fill="none"/><circle cx="50" cy="50" r="3" /></svg>
+        <span class="tracking-widest text-sm uppercase text-amber-300">The Iron Halo</span>
+      </div>
+      <div class="hidden md:flex items-center gap-6 text-sm">
+        <a href="#about" class="hover:text-amber-400 transition">About</a>
+        <a href="#themes" class="hover:text-amber-400 transition">Themes</a>
+        <a href="#sample" class="hover:text-amber-400 transition">Sample</a>
+        <a href="#author" class="hover:text-amber-400 transition">Author</a>
+        <a href="#buy" class="px-4 py-2 rounded bg-amber-500/90 hover:bg-amber-400 text-black font-medium transition">Buy Now</a>
+      </div>
+      <button id="mobileMenuBtn" class="md:hidden text-amber-300">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </nav>
+    
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="hidden md:hidden relative z-10 bg-black/90 backdrop-blur-lg">
+      <div class="flex flex-col gap-4 px-6 py-6">
+        <a href="#about" class="hover:text-amber-400 transition">About</a>
+        <a href="#themes" class="hover:text-amber-400 transition">Themes</a>
+        <a href="#sample" class="hover:text-amber-400 transition">Sample</a>
+        <a href="#author" class="hover:text-amber-400 transition">Author</a>
+        <a href="#buy" class="px-4 py-2 rounded bg-amber-500/90 hover:bg-amber-400 text-black font-medium transition text-center">Buy Now</a>
+      </div>
+    </div>
+
+    <section class="relative z-10 max-w-6xl mx-auto px-6 pt-10 pb-24 md:pt-16 md:pb-40">
+      <div class="max-w-3xl">
+        <h1 class="text-4xl md:text-6xl font-semibold leading-tight">
+          The weapon promised hope.<br><span class="text-amber-400">The cost was everything.</span>
+        </h1>
+        <p class="mt-4 md:mt-6 text-lg text-slate-300 max-w-2xl">
+          A siege at dusk. A city that remembers. An inventor torn between legacy and ruin. <em>The Iron Halo</em> asks what we trade for survival—and who pays the debt.
+        </p>
+        <div class="mt-8 flex flex-wrap items-center gap-3">
+          <a href="#sample" class="px-5 py-3 rounded border border-white/20 hover:bg-white/10 transition">Read a sample</a>
+          <button id="deployBtn" class="px-5 py-3 rounded bg-white/10 hover:bg-white/20 border border-white/10 transition">Deploy the Halo</button>
+          <button id="themeBtn" class="px-5 py-3 text-xs uppercase tracking-wide rounded border border-amber-400/30 hover:bg-amber-400/10 transition">Toggle Hope / Fear</button>
+        </div>
+      </div>
+      <!-- Animated cranes -->
+      <svg class="hidden md:block absolute right-6 bottom-6 w-24 h-24 crane opacity-70" viewBox="0 0 200 200" fill="none" stroke="currentColor">
+        <path d="M20 120 L100 40 L180 120 L140 110 L100 160 L60 110 Z" stroke-width="2"/>
+      </svg>
+    </section>
+  </header>
+
+  <!-- ORIGIN / ABOUT -->
+  <main class="relative">
+    <section id="about" class="max-w-6xl mx-auto px-6 py-16 md:py-24">
+      <div class="grid md:grid-cols-2 gap-10 items-start">
+        <div class="reveal">
+          <h2 class="text-2xl md:text-3xl font-semibold">The Origin of <em>The Iron Halo</em></h2>
+          <div class="divider my-4"></div>
+          <p class="text-slate-300">
+            The spark was a simple question: <em>What if the miracle weapon still couldn't save you?</em> From there came a blacksmith's hammer that rang like a heartbeat, paper cranes that encoded intent, and a siege told in the language of embers and steel. The story took shape around two poles—<strong>hope</strong> and <strong>fear</strong>—and the narrow moral edge between them.
+          </p>
+          <p class="mt-4 text-slate-300">
+            The manuscript's opening—defenders on Eredhal's walls, the strange hum over a tower—arrived first, like memory surfacing whole. Everything else unfolded from consequence: if the Halo works, who becomes the person who launched it? And if it fails, what remains worth building?
+          </p>
+          <p class="mt-4 text-slate-300">
+            The result is a war story that refuses easy victory: legacy passed like a blade, innovation as a mirror, and a journal written in the ash-quiet after. The book's imagery follows suit—iron rings, winter light, and folded cranes that tilt toward protection or conquest.
+          </p>
+        </div>
+        <figure class="glass rounded-2xl p-1 shadow-soft reveal">
+          <img alt="The Creator's Dilemma - hands over blueprints with hammer and caliper" class="rounded-2xl w-full"
+               src="Gemini_Generated_Image_46gduv46gduv46gd.png" />
+          <figcaption class="p-3 text-sm text-slate-400">The Creator's Dilemma—iron, precision, and the weight of invention.</figcaption>
+        </figure>
+      </div>
+
+      <!-- The Two Cranes Feature -->
+      <div class="mt-16 reveal">
+        <figure class="glass rounded-2xl p-1 shadow-soft max-w-4xl mx-auto">
+          <img alt="The Two Cranes - Guardian and Dominion facing each other" class="rounded-2xl w-full"
+               src="Gemini_Generated_Image_46gduv46gduv46gd (1).png" />
+          <figcaption class="p-4 text-center">
+            <h3 class="text-lg font-medium text-amber-300 mb-2">The Two Cranes</h3>
+            <p class="text-sm text-slate-400">On the left, illuminated by soft lamplight: the Guardian Crane, wings arched in protection. On the right, lit by harsh forge-glow: the Dominion Crane, poised to strike. Two philosophies. One choice.</p>
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- VISUAL GALLERY - The Story in Images -->
+    <section class="bg-black/30 backdrop-blur-sm py-16 md:py-24">
+      <div class="max-w-6xl mx-auto px-6">
+        <h2 class="text-2xl md:text-3xl font-semibold text-center reveal">The Story in Images</h2>
+        <div class="divider my-6 max-w-md mx-auto"></div>
+        
+        <div class="grid md:grid-cols-2 gap-8 mt-12">
+          <figure class="glass rounded-2xl p-1 shadow-soft reveal">
+            <img alt="The Inventor's Retreat - cluttered workshop bathed in candlelight" class="rounded-2xl w-full"
+                 src="Gemini_Generated_Image_c8sw48c8sw48c8sw.png" />
+            <figcaption class="p-4">
+              <h3 class="font-medium text-amber-300">The Inventor's Retreat</h3>
+              <p class="text-sm text-slate-400 mt-2">A space of genius and isolation—where dreams are forged and meals go cold.</p>
+            </figcaption>
+          </figure>
+
+          <figure class="glass rounded-2xl p-1 shadow-soft reveal">
+            <img alt="The Halo's Scar - circular burn mark cutting through battlefield" class="rounded-2xl w-full"
+                 src="Gemini_Generated_Image_46gduv46gduv46gd (3).png" />
+            <figcaption class="p-4">
+              <h3 class="font-medium text-amber-300">The Halo's Scar</h3>
+              <p class="text-sm text-slate-400 mt-2">A perfect circle of devastation—the terrifying proof of unseen power.</p>
+            </figcaption>
+          </figure>
+
+          <figure class="glass rounded-2xl p-1 shadow-soft reveal">
+            <img alt="The Whispering Walls - ancient stone carvings covered in moss" class="rounded-2xl w-full"
+                 src="Gemini_Generated_Image_c8sw48c8sw48c8sw (1).png" />
+            <figcaption class="p-4">
+              <h3 class="font-medium text-amber-300">The Whispering Walls</h3>
+              <p class="text-sm text-slate-400 mt-2">Forgotten symbols hint at a deeper history—knowledge waiting to be rediscovered.</p>
+            </figcaption>
+          </figure>
+
+          <figure class="glass rounded-2xl p-1 shadow-soft reveal">
+            <img alt="The Grove of Whispers - hooded figures exchanging secrets in misty forest" class="rounded-2xl w-full"
+                 src="Gemini_Generated_Image_46gduv46gduv46gd (4).png" />
+            <figcaption class="p-4">
+              <h3 class="font-medium text-amber-300">The Grove of Whispers</h3>
+              <p class="text-sm text-slate-400 mt-2">Espionage and unlikely alliances—secrets as powerful as steel.</p>
+            </figcaption>
+          </figure>
+
+          <figure class="glass rounded-2xl p-1 shadow-soft reveal">
+            <img alt="The Silent Vigil - raven on snow-dusted branch against winter landscape" class="rounded-2xl w-full"
+                 src="Gemini_Generated_Image_c8sw48c8sw48c8sw (2).png" />
+            <figcaption class="p-4">
+              <h3 class="font-medium text-amber-300">The Silent Vigil</h3>
+              <p class="text-sm text-slate-400 mt-2">Watchful forces observe from afar—harbingers in the cold.</p>
+            </figcaption>
+          </figure>
+
+          <figure class="glass rounded-2xl p-1 shadow-soft reveal">
+            <img alt="The Shadowed Path - misty cobblestone alley with distant lantern" class="rounded-2xl w-full"
+                 src="Gemini_Generated_Image_c8sw48c8sw48c8sw (3).png" />
+            <figcaption class="p-4">
+              <h3 class="font-medium text-amber-300">The Shadowed Path</h3>
+              <p class="text-sm text-slate-400 mt-2">Where intrigue dwells—the hidden underbelly of the city.</p>
+            </figcaption>
+          </figure>
+        </div>
+
+        <!-- The Broken Seal - Full Width -->
+        <figure class="glass rounded-2xl p-1 shadow-soft mt-8 max-w-3xl mx-auto reveal">
+          <img alt="The Broken Seal - shattered wax seal on velvet with feather" class="rounded-2xl w-full"
+               src="Gemini_Generated_Image_c8sw48c8sw48c8sw (4).png" />
+          <figcaption class="p-4 text-center">
+            <h3 class="font-medium text-amber-300">The Broken Seal</h3>
+            <p class="text-sm text-slate-400 mt-2">Betrayal, dissolution of power, and the moment when trust shatters.</p>
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- THEMES -->
+    <section id="themes" class="parallax" style="background-image:url('Gemini_Generated_Image_46gduv46gduv46gd (3).png');">
+      <div class="bg-black/75">
+        <div class="max-w-6xl mx-auto px-6 py-16 md:py-24">
+          <h2 class="text-2xl md:text-3xl font-semibold reveal">Themes that shaped the page</h2>
+          <div class="divider my-4"></div>
+          <ul class="grid md:grid-cols-3 gap-6 mt-8">
+            <li class="glass p-6 rounded-xl reveal">
+              <h3 class="font-medium text-amber-300 text-lg">Hope vs. Fear</h3>
+              <p class="text-slate-300 mt-3">A weapon as promise and threat; leadership that steadies versus ambition that consumes.</p>
+            </li>
+            <li class="glass p-6 rounded-xl reveal">
+              <h3 class="font-medium text-amber-300 text-lg">Legacy &amp; Invention</h3>
+              <p class="text-slate-300 mt-3">Paper cranes that fold intent; a son inheriting a problem, not a solution.</p>
+            </li>
+            <li class="glass p-6 rounded-xl reveal">
+              <h3 class="font-medium text-amber-300 text-lg">The Cost of Victory</h3>
+              <p class="text-slate-300 mt-3">Even triumph can be a turning—toward consequences that outlive the battle.</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- SAMPLE / INTERACTIVE ACCORDION -->
+    <section id="sample" class="max-w-6xl mx-auto px-6 py-16 md:py-24">
+      <div class="md:flex md:items-center md:justify-between reveal">
+        <h2 class="text-2xl md:text-3xl font-semibold">Read a Sample</h2>
+        <p class="text-sm text-slate-400 mt-2 md:mt-0">Tap to expand chapters.</p>
+      </div>
+      <div class="divider my-4"></div>
+
+      <div class="space-y-3">
+        <details class="glass rounded-xl p-4 group reveal cursor-pointer">
+          <summary class="cursor-pointer font-medium flex items-center justify-between">
+            <span>Prologue — The Sky Above Eredhal</span>
+            <span class="text-xs text-slate-400 group-open:hidden">expand +</span>
+            <span class="text-xs text-slate-400 hidden group-open:inline">collapse −</span>
+          </summary>
+          <div class="mt-4 pl-4 border-l-2 border-amber-400/30">
+            <p class="text-slate-300 leading-relaxed">
+              "Then the sound came. Not a horn. Not a drum…" A strange hum threads the dusk as a shape rises over the tower and the defenders realize nothing in their training prepared them for this. The weapon that would change everything was about to be unleashed, and with it, the course of history itself.
+            </p>
+          </div>
+        </details>
+        <details class="glass rounded-xl p-4 group reveal cursor-pointer">
+          <summary class="cursor-pointer font-medium flex items-center justify-between">
+            <span>Chapter 2 — The Last Gift and the Silent Pact</span>
+            <span class="text-xs text-slate-400 group-open:hidden">expand +</span>
+            <span class="text-xs text-slate-400 hidden group-open:inline">collapse −</span>
+          </summary>
+          <div class="mt-4 pl-4 border-l-2 border-amber-400/30">
+            <p class="text-slate-300 leading-relaxed">
+              A six-year-old Aenan keeps vigil beside a cold lamp, clutching designs that smell of soot and oil; grief settles into purpose. The weight of his father's legacy rests in his small hands—blueprints for a weapon that could save a city, or destroy it.
+            </p>
+          </div>
+        </details>
+        <details class="glass rounded-xl p-4 group reveal cursor-pointer">
+          <summary class="cursor-pointer font-medium flex items-center justify-between">
+            <span>Battle Excerpt — First Halo Flight</span>
+            <span class="text-xs text-slate-400 group-open:hidden">expand +</span>
+            <span class="text-xs text-slate-400 hidden group-open:inline">collapse −</span>
+          </summary>
+          <div class="mt-4 pl-4 border-l-2 border-amber-400/30">
+            <p class="text-slate-300 leading-relaxed">
+              The machine's buzz is almost beneath hearing—until it isn't. In the aftermath, cheers blur against the weight of what can't be taken back. Victory tastes of ash and iron, and the defenders must reckon with what they've become.
+            </p>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- AUTHOR -->
+    <section id="author" class="max-w-6xl mx-auto px-6 py-16 md:py-24">
+      <div class="grid md:grid-cols-2 gap-10 items-start">
+        <figure class="glass rounded-2xl p-1 shadow-soft reveal order-2 md:order-1">
+          <img alt="Spandan Shah - Author portrait" class="rounded-2xl w-full"
+               src="Gemini_Generated_Image_njvyswnjvyswnjvy.png" />
+          <figcaption class="p-3 text-sm text-slate-400 text-center">Spandan V. Shah — Author of The Iron Halo</figcaption>
+        </figure>
+        <div class="reveal order-1 md:order-2">
+          <h2 class="text-2xl md:text-3xl font-semibold">About the Author — Spandan Shah</h2>
+          <div class="divider my-4"></div>
+          <p class="text-slate-300">
+            <strong>Spandan V. Shah</strong> is a Staff Scientist at the Center for Virology and Vaccine Research, Beth Israel Lahey Health / Harvard Medical School, with widely cited publications in immunology and related fields. That rigorous, systems-driven lens informs the moral engineering at the heart of <em>The Iron Halo</em>—an inquiry into what innovation does to the people who wield it.
+          </p>
+          <p class="mt-4 text-slate-300">
+            Drawing on his scientific background, Shah explores the intersection of invention and consequence, where brilliant minds must grapple with the weight of their creations. <em>The Iron Halo</em> is his debut novel, blending meticulous world-building with profound questions about legacy, power, and the price of progress.
+          </p>
+          <div class="mt-6 flex flex-wrap gap-3">
+            <a class="px-5 py-3 rounded border border-white/20 hover:bg-white/10 transition" href="#contact">Contact</a>
+            <a class="px-5 py-3 rounded bg-amber-500/90 hover:bg-amber-400 text-black font-medium transition" href="#buy">Buy the Book</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BUY -->
+    <section id="buy" class="parallax" style="background-image:url('Gemini_Generated_Image_46gduv46gduv46gd (2).png');">
+      <div class="bg-black/80 backdrop-blur-sm">
+        <div class="max-w-6xl mx-auto px-6 py-16 md:py-24">
+          <h2 class="text-2xl md:text-3xl font-semibold reveal text-center">Get the Book</h2>
+          <div class="divider my-6 max-w-md mx-auto"></div>
+          <p class="text-center text-slate-300 mb-8 reveal">Available now at major retailers</p>
+          <div class="grid md:grid-cols-3 gap-6">
+            <a class="glass rounded-xl p-6 block hover:bg-white/10 transition-all transform hover:scale-105 reveal" target="_blank" rel="noopener noreferrer"
+               href="https://www.amazon.com/s?k=The+Iron+Halo+Spandan+Shah">
+              <div class="flex items-center gap-3 mb-3">
+                <svg class="w-8 h-8 text-amber-400" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M.045 18.02c.072-.116.187-.124.348-.022 3.636 2.11 7.594 3.166 11.87 3.166 2.852 0 5.668-.533 8.447-1.595l.315-.14c.138-.06.234-.1.293-.13.226-.088.39-.046.525.13.12.174.09.336-.12.48-.256.19-.6.41-1.006.654-1.244.743-2.64 1.316-4.185 1.726-1.548.41-3.08.61-4.604.61-2.24 0-4.41-.346-6.504-1.037-2.096-.69-4.012-1.705-5.748-3.047-.353-.256-.418-.448-.21-.658z"/>
+                  <path d="M21.95 16.35c-.268-.268-.686-.375-1.24-.307-.554.068-1.28.347-2.18.838-.45.245-.85.49-1.2.735-.35.245-.583.49-.698.735-.115.245-.115.49 0 .735.115.245.348.413.698.505.35.092.768.08 1.253-.035.485-.115.968-.347 1.45-.698.482-.35.85-.735 1.103-1.155.253-.42.33-.817.23-1.19-.1-.373-.268-.625-.416-.793z"/>
+                </svg>
+                <h3 class="font-medium text-xl">Amazon</h3>
+              </div>
+              <p class="text-slate-300 text-sm">Order your copy from Amazon in paperback, hardcover, or Kindle edition.</p>
+            </a>
+            <a class="glass rounded-xl p-6 block hover:bg-white/10 transition-all transform hover:scale-105 reveal" target="_blank" rel="noopener noreferrer"
+               href="https://bookshop.org/search?keywords=The+Iron+Halo+Spandan+Shah">
+              <div class="flex items-center gap-3 mb-3">
+                <svg class="w-8 h-8 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                </svg>
+                <h3 class="font-medium text-xl">Bookshop.org</h3>
+              </div>
+              <p class="text-slate-300 text-sm">Support independent bookstores with a purchase from Bookshop.org.</p>
+            </a>
+            <a class="glass rounded-xl p-6 block hover:bg-white/10 transition-all transform hover:scale-105 reveal" target="_blank" rel="noopener noreferrer"
+               href="https://www.barnesandnoble.com/s/The%20Iron%20Halo%20Spandan%20Shah">
+              <div class="flex items-center gap-3 mb-3">
+                <svg class="w-8 h-8 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 4v12l-4-2-4 2V4M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                </svg>
+                <h3 class="font-medium text-xl">Barnes &amp; Noble</h3>
+              </div>
+              <p class="text-slate-300 text-sm">Find The Iron Halo at your nearest Barnes &amp; Noble store or online.</p>
+            </a>
+          </div>
+          <p class="text-xs text-slate-400 mt-6 text-center reveal">Note: Direct product page links will be updated upon publication. Current links provide search results.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT / CTA -->
+    <section id="contact" class="max-w-6xl mx-auto px-6 py-16 md:py-24">
+      <div class="glass rounded-2xl p-8 md:p-10 shadow-soft reveal">
+        <h2 class="text-2xl md:text-3xl font-semibold">Invite &amp; Press</h2>
+        <div class="divider my-4"></div>
+        <p class="text-slate-300 mb-2">For readings, interviews, and rights queries, drop a line:</p>
+        <p class="text-sm text-slate-400 mb-6">We'd love to hear from book clubs, podcasters, reviewers, and media outlets interested in The Iron Halo.</p>
+        <form id="contactForm" class="grid md:grid-cols-3 gap-4">
+          <input name="name" class="w-full rounded-lg bg-white/5 border border-white/10 px-4 py-3 focus:border-amber-400 focus:outline-none transition" placeholder="Your name" required>
+          <input name="email" type="email" class="w-full rounded-lg bg-white/5 border border-white/10 px-4 py-3 focus:border-amber-400 focus:outline-none transition" placeholder="Email" required>
+          <button type="submit" class="rounded-lg bg-amber-500/90 hover:bg-amber-400 text-black font-medium px-4 py-3 transition">Request Info</button>
+        </form>
+        <p id="contactMsg" class="text-sm text-amber-300 mt-3 hidden">✓ Thanks! We'll be in touch shortly.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="text-center text-slate-400 text-sm py-10 border-t border-white/5">
+    <p>© <span id="year"></span> Spandan Shah. All rights reserved.</p>
+    <p class="mt-2 text-xs">Themes & imagery inspired by the novel's motifs of iron, embers, and folded intent.</p>
+  </footer>
+
+  <!-- INTERACTIVITY -->
+  <script>
+    // Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Mobile Menu Toggle
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+
+    // Close mobile menu when clicking a link
+    document.querySelectorAll('#mobileMenu a').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.add('hidden');
+      });
+    });
+
+    // Hope/Fear theme toggle - ENHANCED
+    const themeBtn = document.getElementById('themeBtn');
+    themeBtn.addEventListener('click', () => {
+      const isFear = document.body.classList.toggle('fear');
+      const mode = isFear ? 'Fear' : 'Hope';
+      const color = isFear ? '#ef4444' : '#f59e0b';
+      
+      // Update button text
+      themeBtn.textContent = `Mode: ${mode}`;
+      
+      // Screen flash effect
+      const flash = document.createElement('div');
+      flash.className = 'screen-flash';
+      flash.style.background = color;
+      flash.style.animation = 'theme-flash 0.8s ease-out';
+      document.body.appendChild(flash);
+      setTimeout(() => flash.remove(), 800);
+      
+      // Shake the entire page briefly
+      document.body.style.animation = 'shake 0.4s ease';
+      setTimeout(() => document.body.style.animation = '', 400);
+      
+      // Pulse all glass elements
+      document.querySelectorAll('.glass').forEach(el => {
+        el.style.animation = 'pulse-grow 0.6s ease';
+        setTimeout(() => el.style.animation = '', 600);
+      });
+      
+      // Play a theme transition sound
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        
+        osc.type = isFear ? 'square' : 'sine';
+        osc.frequency.value = isFear ? 150 : 440;
+        gain.gain.value = 0.03;
+        
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        
+        // Sweep frequency
+        const t = ctx.currentTime;
+        osc.frequency.exponentialRampToValueAtTime(isFear ? 80 : 880, t + 0.3);
+        gain.gain.exponentialRampToValueAtTime(0.00001, t + 0.4);
+        
+        setTimeout(() => { osc.stop(); ctx.close(); }, 500);
+      } catch(e) {}
+      
+      // Create expanding ripple effect
+      const ripple = document.createElement('div');
+      ripple.style.position = 'fixed';
+      ripple.style.borderRadius = '50%';
+      ripple.style.border = `4px solid ${color}`;
+      ripple.style.pointerEvents = 'none';
+      ripple.style.zIndex = '9999';
+      
+      const btnRect = themeBtn.getBoundingClientRect();
+      const centerX = btnRect.left + btnRect.width / 2;
+      const centerY = btnRect.top + btnRect.height / 2;
+      
+      ripple.style.left = centerX + 'px';
+      ripple.style.top = centerY + 'px';
+      ripple.style.width = '0px';
+      ripple.style.height = '0px';
+      ripple.style.transform = 'translate(-50%, -50%)';
+      
+      document.body.appendChild(ripple);
+      
+      // Animate ripple expansion
+      let size = 0;
+      let opacity = 1;
+      const maxSize = Math.max(window.innerWidth, window.innerHeight) * 2;
+      
+      const expandRipple = () => {
+        size += 50;
+        opacity -= 0.02;
+        
+        if (size < maxSize && opacity > 0) {
+          ripple.style.width = size + 'px';
+          ripple.style.height = size + 'px';
+          ripple.style.opacity = opacity;
+          requestAnimationFrame(expandRipple);
+        } else {
+          ripple.remove();
+        }
+      };
+      requestAnimationFrame(expandRipple);
+      
+      // Show mode banner
+      const banner = document.createElement('div');
+      banner.style.position = 'fixed';
+      banner.style.top = '50%';
+      banner.style.left = '50%';
+      banner.style.transform = 'translate(-50%, -50%) scale(0)';
+      banner.style.zIndex = '10000';
+      banner.style.padding = '30px 60px';
+      banner.style.background = `linear-gradient(135deg, ${color}22, ${color}44)`;
+      banner.style.backdropFilter = 'blur(10px)';
+      banner.style.border = `3px solid ${color}`;
+      banner.style.borderRadius = '20px';
+      banner.style.color = '#fff';
+      banner.style.fontSize = '3rem';
+      banner.style.fontWeight = 'bold';
+      banner.style.textShadow = `0 0 20px ${color}`;
+      banner.style.boxShadow = `0 0 50px ${color}, inset 0 0 30px ${color}33`;
+      banner.textContent = mode.toUpperCase();
+      banner.style.transition = 'all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+      
+      document.body.appendChild(banner);
+      
+      setTimeout(() => {
+        banner.style.transform = 'translate(-50%, -50%) scale(1)';
+      }, 50);
+      
+      setTimeout(() => {
+        banner.style.transform = 'translate(-50%, -50%) scale(0)';
+        banner.style.opacity = '0';
+      }, 1500);
+      
+      setTimeout(() => banner.remove(), 2000);
+    });
+
+    // Contact form submission
+    document.getElementById('contactForm').addEventListener('submit', (e)=>{
+      e.preventDefault();
+      document.getElementById('contactMsg').classList.remove('hidden');
+      setTimeout(() => {
+        document.getElementById('contactForm').reset();
+      }, 500);
+    });
+
+    // Deploy the Halo: ULTRA ENHANCED
+    const deployBtn = document.getElementById('deployBtn');
+    let deployed = false;
+    deployBtn.addEventListener('click', () => {
+      if (deployed) return;
+      deployed = true;
+      deployBtn.textContent = 'DEPLOYING...';
+      deployBtn.style.animation = 'shake 0.5s ease infinite';
+      
+      // DRAMATIC SCREEN SHAKE
+      let shakeIntensity = 15;
+      const shakeInterval = setInterval(() => {
+        const x = (Math.random() - 0.5) * shakeIntensity;
+        const y = (Math.random() - 0.5) * shakeIntensity;
+        document.body.style.transform = `translate(${x}px, ${y}px)`;
+        shakeIntensity *= 0.9;
+      }, 50);
+      
+      setTimeout(() => {
+        clearInterval(shakeInterval);
+        document.body.style.transform = '';
+      }, 2000);
+      
+      // MULTI-LAYERED DRAMATIC SOUND
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        
+        // Deep rumble bass
+        const bass = ctx.createOscillator();
+        const bassGain = ctx.createGain();
+        bass.type = 'sawtooth';
+        bass.frequency.value = 40;
+        bassGain.gain.value = 0.05;
+        bass.connect(bassGain);
+        bassGain.connect(ctx.destination);
+        bass.start();
+        
+        // Rising siren
+        const siren = ctx.createOscillator();
+        const sirenGain = ctx.createGain();
+        siren.type = 'sine';
+        siren.frequency.value = 200;
+        sirenGain.gain.value = 0.04;
+        siren.connect(sirenGain);
+        sirenGain.connect(ctx.destination);
+        siren.start();
+        
+        // High-pitched whine
+        const whine = ctx.createOscillator();
+        const whineGain = ctx.createGain();
+        whine.type = 'triangle';
+        whine.frequency.value = 800;
+        whineGain.gain.value = 0.02;
+        whine.connect(whineGain);
+        whineGain.connect(ctx.destination);
+        whine.start();
+        
+        const t = ctx.currentTime;
+        
+        // Frequency sweeps
+        bass.frequency.exponentialRampToValueAtTime(80, t + 1.5);
+        siren.frequency.exponentialRampToValueAtTime(1200, t + 1.2);
+        whine.frequency.exponentialRampToValueAtTime(2400, t + 1.0);
+        
+        // Fade out
+        bassGain.gain.exponentialRampToValueAtTime(0.00001, t + 2.0);
+        sirenGain.gain.exponentialRampToValueAtTime(0.00001, t + 1.8);
+        whineGain.gain.exponentialRampToValueAtTime(0.00001, t + 1.5);
+        
+        setTimeout(() => {
+          bass.stop();
+          siren.stop();
+          whine.stop();
+          ctx.close();
+        }, 2200);
+      } catch(e) {}
+      
+      // INTENSE SCREEN FLASH
+      const flash = document.createElement('div');
+      flash.className = 'screen-flash';
+      flash.style.background = 'radial-gradient(circle, rgba(245,158,11,0.4) 0%, rgba(245,158,11,0) 70%)';
+      document.body.appendChild(flash);
+      
+      let flashOpacity = 0.8;
+      const flashInterval = setInterval(() => {
+        flashOpacity *= 0.85;
+        flash.style.opacity = flashOpacity;
+        if (flashOpacity < 0.01) {
+          clearInterval(flashInterval);
+          flash.remove();
+        }
+      }, 50);
+      
+      // EXPANDING HALO RINGS (multiple waves)
+      const rect = deployBtn.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      
+      for (let wave = 0; wave < 5; wave++) {
+        setTimeout(() => {
+          const ring = document.createElement('div');
+          ring.className = 'halo-ring';
+          ring.style.left = centerX + 'px';
+          ring.style.top = centerY + 'px';
+          ring.style.width = '20px';
+          ring.style.height = '20px';
+          ring.style.transform = 'translate(-50%, -50%)';
+          document.body.appendChild(ring);
+          
+          let size = 20;
+          let opacity = 1;
+          const maxSize = Math.max(window.innerWidth, window.innerHeight) * 3;
+          
+          const expandRing = () => {
+            size += 40;
+            opacity -= 0.012;
+            
+            if (size < maxSize && opacity > 0) {
+              ring.style.width = size + 'px';
+              ring.style.height = size + 'px';
+              ring.style.opacity = opacity;
+              requestAnimationFrame(expandRing);
+            } else {
+              ring.remove();
+            }
+          };
+          requestAnimationFrame(expandRing);
+        }, wave * 200);
+      }
+      
+      // MASSIVE PARTICLE EXPLOSION (400 particles!)
+      const origin = { x: centerX, y: centerY };
+      
+      for (let i = 0; i < 400; i++) {
+        setTimeout(() => {
+          const sp = document.createElement('div');
+          sp.className = 'spark';
+          
+          // Vary particle colors
+          const colors = ['#fff', '#f59e0b', '#fbbf24', '#fcd34d', '#fef3c7'];
+          sp.style.background = colors[Math.floor(Math.random() * colors.length)];
+          
+          document.body.appendChild(sp);
+          
+          const angle = Math.random() * Math.PI * 2;
+          const speed = 5 + Math.random() * 15;
+          const dx = Math.cos(angle) * speed;
+          const dy = Math.sin(angle) * speed;
+          
+          let x = origin.x;
+          let y = origin.y;
+          let velocityY = dy;
+          
+          const life = 800 + Math.random() * 1200;
+          const start = performance.now();
+          
+          const tick = (now) => {
+            const dt = now - start;
+            if (dt > life) {
+              sp.remove();
+              return;
+            }
+            
+            // Physics: gravity and air resistance
+            velocityY += 0.5; // gravity
+            x += dx * 0.98; // air resistance
+            y += velocityY;
+            
+            sp.style.transform = `translate(${x}px, ${y}px) scale(${1 - dt/life})`;
+            sp.style.opacity = (1 - dt / life).toFixed(2);
+            
+            requestAnimationFrame(tick);
+          };
+          requestAnimationFrame(tick);
+        }, Math.random() * 300);
+      }
+      
+      // PULSING WARNING TEXT
+      const warning = document.createElement('div');
+      warning.style.position = 'fixed';
+      warning.style.top = '20%';
+      warning.style.left = '50%';
+      warning.style.transform = 'translateX(-50%) scale(0)';
+      warning.style.zIndex = '10001';
+      warning.style.padding = '40px 80px';
+      warning.style.background = 'linear-gradient(135deg, rgba(245,158,11,0.3), rgba(251,191,36,0.3))';
+      warning.style.backdropFilter = 'blur(20px)';
+      warning.style.border = '4px solid #f59e0b';
+      warning.style.borderRadius = '30px';
+      warning.style.color = '#fef3c7';
+      warning.style.fontSize = '4rem';
+      warning.style.fontWeight = 'bold';
+      warning.style.textShadow = '0 0 30px #f59e0b, 0 0 60px #f59e0b';
+      warning.style.boxShadow = '0 0 80px #f59e0b, inset 0 0 40px rgba(245,158,11,0.5)';
+      warning.style.letterSpacing = '0.2em';
+      warning.textContent = '⚠ HALO DEPLOYED ⚠';
+      warning.style.transition = 'all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+      
+      document.body.appendChild(warning);
+      
+      setTimeout(() => {
+        warning.style.transform = 'translateX(-50%) scale(1)';
+      }, 200);
+      
+      // Pulsing effect
+      let pulseCount = 0;
+      const pulseInterval = setInterval(() => {
+        warning.style.transform = `translateX(-50%) scale(${1 + Math.sin(pulseCount) * 0.1})`;
+        pulseCount += 0.3;
+      }, 50);
+      
+      setTimeout(() => {
+        clearInterval(pulseInterval);
+        warning.style.transform = 'translateX(-50%) scale(0)';
+        warning.style.opacity = '0';
+      }, 2000);
+      
+      setTimeout(() => warning.remove(), 2600);
+      
+      // BUTTON STATE UPDATES
+      setTimeout(() => {
+        deployBtn.style.animation = '';
+        deployBtn.textContent = '✓ HALO DEPLOYED ✓';
+        deployBtn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+        deployBtn.style.borderColor = '#10b981';
+        deployBtn.style.boxShadow = '0 0 30px #10b981';
+        
+        setTimeout(() => {
+          deployBtn.textContent = 'Deploy the Halo';
+          deployBtn.style.background = '';
+          deployBtn.style.borderColor = '';
+          deployBtn.style.boxShadow = '';
+          deployed = false;
+        }, 3000);
+      }, 2000);
+    });
+
+    // Intersection Observer for scroll reveal
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+    // Observe all reveal elements
+    document.querySelectorAll('.reveal').forEach(el => {
+      revealObserver.observe(el);
+    });
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
