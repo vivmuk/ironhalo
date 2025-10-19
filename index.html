@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>The Iron Halo — Spandan Shah</title>
-  <meta name="description" content="The official site for The Iron Halo by Spandan Shah: origin story, themes, sample, and buy links." />
+  <meta name="description" content="The official site for The Iron Halo by Spandan Shah: origin story, Guardian &amp; Dominion themes, and buy links." />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='40' stroke='%23f59e0b' stroke-width='6' fill='none'/><circle cx='50' cy='50' r='3' fill='%23f59e0b'/></svg>">
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
@@ -20,37 +20,108 @@
     .halo-ring { position:fixed; border-radius:50%; border:3px solid var(--accent); pointer-events:none; z-index:9999; box-shadow: 0 0 20px var(--accent), inset 0 0 20px var(--accent); }
     .screen-flash { position:fixed; inset:0; pointer-events:none; z-index:9998; }
     .parallax { background-attachment: fixed; background-size: cover; background-position:center; }
-    .glass { background: rgba(255,255,255,.08); backdrop-filter: blur(8px); transition: all 0.5s ease; }
-    .shadow-soft{ box-shadow: 0 10px 30px rgba(0,0,0,.25); }
-    .divider { height:1px; background: linear-gradient(90deg,transparent,rgba(255,255,255,.25),transparent); }
+    .divider { height:1px; background: linear-gradient(90deg,transparent,var(--panel-border),transparent); }
     .crane path { transform-origin:center; animation: float 6s ease-in-out infinite; }
     @keyframes float { 0%,100%{ transform: translateY(0) } 50%{ transform: translateY(-6px) } }
     @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-10px); } 75% { transform: translateX(10px); } }
     @keyframes pulse-grow { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
     @keyframes theme-flash { 0% { opacity: 0; } 50% { opacity: 0.3; } 100% { opacity: 0; } }
     /* Theme tokens */
-    :root{ --bg:#0b0e12; --fg:#e9edf3; --muted:#aab3c4; --accent:#f59e0b; --accent-2:#60a5fa; transition: all 0.5s ease; }
-    .fear{ --accent:#ef4444; --accent-2:#7dd3fc; filter: saturate(130%) brightness(1.1); }
-    body{ background:linear-gradient(#0b0e12,#11151b); color:var(--fg); scroll-behavior:smooth; transition: all 0.5s ease; }
-    a{ color:var(--accent-2); transition: all 0.3s ease; }
-    a:hover{ color:var(--accent); }
+    :root{
+      --bg-start:#f8fafc;
+      --bg-end:#e2e8f0;
+      --fg:#1f2937;
+      --muted:#475569;
+      --accent:#f97316;
+      --accent-2:#0ea5e9;
+      --panel:rgba(255,255,255,0.78);
+      --panel-border:rgba(148,163,184,0.35);
+      --panel-hover:rgba(255,255,255,0.92);
+      --layer:rgba(255,255,255,0.7);
+      --layer-deep:rgba(226,232,240,0.85);
+      --hero-overlay-start:rgba(255,255,255,0.82);
+      --hero-overlay-end:rgba(241,245,249,0.95);
+      --shadow:rgba(148,163,184,0.45);
+      --link:#1d4ed8;
+      --link-hover:#f97316;
+      transition: all 0.5s ease;
+    }
+    body.dominion{
+      --bg-start:#0b0e12;
+      --bg-end:#11151b;
+      --fg:#e9edf3;
+      --muted:#aab3c4;
+      --accent:#f59e0b;
+      --accent-2:#60a5fa;
+      --panel:rgba(15,23,42,0.78);
+      --panel-border:rgba(148,163,184,0.2);
+      --panel-hover:rgba(30,41,59,0.92);
+      --layer:rgba(15,23,42,0.7);
+      --layer-deep:rgba(11,14,18,0.88);
+      --hero-overlay-start:rgba(0,0,0,0.75);
+      --hero-overlay-end:rgba(0,0,0,0.88);
+      --shadow:rgba(0,0,0,0.6);
+      --link:#60a5fa;
+      --link-hover:#f59e0b;
+    }
+    body{
+      background:linear-gradient(var(--bg-start),var(--bg-end));
+      color:var(--fg);
+      scroll-behavior:smooth;
+      transition: all 0.5s ease;
+    }
+    a{ color:var(--link); transition: all 0.3s ease; }
+    a:hover{ color:var(--link-hover); }
     /* Image transitions */
     img { transition: transform 0.3s ease, filter 0.3s ease; }
-    figure:hover img { transform: scale(1.02); filter: brightness(1.1); }
+    figure:hover img { transform: scale(1.02); filter: brightness(1.05); }
     /* Smooth reveal */
     .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
     .reveal.active { opacity: 1; transform: translateY(0); }
+    .glass { background: var(--panel); border:1px solid var(--panel-border); backdrop-filter: blur(12px); transition: all 0.5s ease; }
+    .glass:hover{ background: var(--panel-hover); }
+    .shadow-soft{ box-shadow: 0 10px 30px var(--shadow); }
+    .theme-layer{ background: var(--layer); backdrop-filter: blur(10px); transition: all 0.5s ease; }
+    .theme-layer-deep{ background: var(--layer-deep); backdrop-filter: blur(12px); transition: all 0.5s ease; }
+    .hero-overlay{ background: linear-gradient(to bottom,var(--hero-overlay-start),var(--hero-overlay-end)); transition: all 0.5s ease; }
+    .border-theme{ border:1px solid var(--panel-border); }
+    .bg-panel{ background: var(--panel); }
+    .btn-accent{ background: var(--accent); color:#0b1120; }
+    .btn-accent:hover{ filter: brightness(1.08); }
+    .border-theme-top{ border-top:1px solid var(--panel-border); }
+    .form-field{
+      background: var(--panel);
+      border:1px solid var(--panel-border);
+      color: var(--fg);
+      padding: 0.75rem 1rem;
+      border-radius: 0.75rem;
+      transition: all 0.3s ease;
+    }
+    .form-field::placeholder{ color: var(--muted); }
+    .form-field:focus{
+      border-color: var(--accent);
+      outline:none;
+      box-shadow: 0 0 0 4px rgba(249,115,22,0.25);
+    }
+    body.dominion .form-field:focus{
+      box-shadow: 0 0 0 4px rgba(245,158,11,0.25);
+    }
+    body.guardian .text-slate-300,
+    body.guardian .text-slate-400,
+    body.guardian .text-slate-200 { color: var(--muted) !important; }
+    body.guardian .text-amber-300,
+    body.guardian .text-amber-400 { color: var(--accent) !important; }
     /* Custom scrollbar */
     ::-webkit-scrollbar { width: 10px; }
-    ::-webkit-scrollbar-track { background: #0b0e12; }
+    ::-webkit-scrollbar-track { background: var(--bg-start); }
     ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 5px; }
     ::-webkit-scrollbar-thumb:hover { background: var(--accent-2); }
   </style>
 </head>
-<body class="grain selection:bg-amber-300/30 selection:text-amber-950">
+<body class="grain guardian selection:bg-amber-300/30 selection:text-amber-950">
   <!-- HERO -->
   <header class="relative parallax" style="background-image:url('Gemini_Generated_Image_46gduv46gduv46gd (2).png');">
-    <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-[#0b0e12]"></div>
+    <div class="absolute inset-0 hero-overlay"></div>
     <nav class="relative z-10 max-w-6xl mx-auto px-6 py-5 flex items-center justify-between">
       <div class="flex items-center gap-3">
         <svg class="w-8 h-8 text-amber-400" viewBox="0 0 100 100" fill="currentColor" aria-hidden="true"><circle cx="50" cy="50" r="40" stroke="currentColor" stroke-width="6" fill="none"/><circle cx="50" cy="50" r="3" /></svg>
@@ -59,9 +130,8 @@
       <div class="hidden md:flex items-center gap-6 text-sm">
         <a href="#about" class="hover:text-amber-400 transition">About</a>
         <a href="#themes" class="hover:text-amber-400 transition">Themes</a>
-        <a href="#sample" class="hover:text-amber-400 transition">Sample</a>
         <a href="#author" class="hover:text-amber-400 transition">Author</a>
-        <a href="#buy" class="px-4 py-2 rounded bg-amber-500/90 hover:bg-amber-400 text-black font-medium transition">Buy Now</a>
+        <a href="#buy" class="px-4 py-2 rounded btn-accent font-medium transition">Buy Now</a>
       </div>
       <button id="mobileMenuBtn" class="md:hidden text-amber-300">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -71,13 +141,12 @@
     </nav>
     
     <!-- Mobile Menu -->
-    <div id="mobileMenu" class="hidden md:hidden relative z-10 bg-black/90 backdrop-blur-lg">
+    <div id="mobileMenu" class="hidden md:hidden relative z-10 theme-layer-deep">
       <div class="flex flex-col gap-4 px-6 py-6">
         <a href="#about" class="hover:text-amber-400 transition">About</a>
         <a href="#themes" class="hover:text-amber-400 transition">Themes</a>
-        <a href="#sample" class="hover:text-amber-400 transition">Sample</a>
         <a href="#author" class="hover:text-amber-400 transition">Author</a>
-        <a href="#buy" class="px-4 py-2 rounded bg-amber-500/90 hover:bg-amber-400 text-black font-medium transition text-center">Buy Now</a>
+        <a href="#buy" class="px-4 py-2 rounded btn-accent font-medium transition text-center">Buy Now</a>
       </div>
     </div>
 
@@ -87,12 +156,12 @@
           The weapon promised hope.<br><span class="text-amber-400">The cost was everything.</span>
         </h1>
         <p class="mt-4 md:mt-6 text-lg text-slate-300 max-w-2xl">
-          A siege at dusk. A city that remembers. An inventor torn between legacy and ruin. <em>The Iron Halo</em> asks what we trade for survival—and who pays the debt.
+          A siege at dusk. A city that remembers. Days spent charting molecular warfare in the lab bled into nights spent imagining its echoes on an ancient wall. <em>The Iron Halo</em> asks what we trade for survival—and who pays the debt.
         </p>
         <div class="mt-8 flex flex-wrap items-center gap-3">
-          <a href="#sample" class="px-5 py-3 rounded border border-white/20 hover:bg-white/10 transition">Read a sample</a>
-          <button id="deployBtn" class="px-5 py-3 rounded bg-white/10 hover:bg-white/20 border border-white/10 transition">Deploy the Halo</button>
-          <button id="themeBtn" class="px-5 py-3 text-xs uppercase tracking-wide rounded border border-amber-400/30 hover:bg-amber-400/10 transition">Toggle Hope / Fear</button>
+          <a href="#themes" class="inline-flex items-center px-5 py-3 rounded border-theme bg-panel hover:shadow-soft transition">Explore Guardian &amp; Dominion</a>
+          <button id="deployBtn" class="px-5 py-3 rounded border-theme bg-panel hover:shadow-soft transition">Deploy the Halo</button>
+          <button id="themeBtn" class="px-5 py-3 text-xs uppercase tracking-wide rounded border-theme bg-panel hover:shadow-soft transition">Mode: Guardian</button>
         </div>
       </div>
       <!-- Animated cranes -->
@@ -110,10 +179,16 @@
           <h2 class="text-2xl md:text-3xl font-semibold">The Origin of <em>The Iron Halo</em></h2>
           <div class="divider my-4"></div>
           <p class="text-slate-300">
-            The spark was a simple question: <em>What if the miracle weapon still couldn't save you?</em> From there came a blacksmith's hammer that rang like a heartbeat, paper cranes that encoded intent, and a siege told in the language of embers and steel. The story took shape around two poles—<strong>hope</strong> and <strong>fear</strong>—and the narrow moral edge between them.
+            The spark was a simple question: <em>What if the miracle weapon still couldn't save you?</em> From there came a blacksmith's hammer that rang like a heartbeat, paper cranes that encoded intent, and a siege told in the language of embers and steel. The story crystallized around two mindsets—the sheltering Guardian and the uncompromising Dominion—and the narrow moral edge between them.
           </p>
           <p class="mt-4 text-slate-300">
-            The manuscript's opening—defenders on Eredhal's walls, the strange hum over a tower—arrived first, like memory surfacing whole. Everything else unfolded from consequence: if the Halo works, who becomes the person who launched it? And if it fails, what remains worth building?
+            By day Shah maps immune cascades and vaccine responses, thinking constantly about molecular warfare that unfolds cell by cell. That scientific lens—how systems defend, adapt, and sometimes backfire—bled directly into the Halo's design and the ethical calculus that surrounds it.
+          </p>
+          <p class="mt-4 text-slate-300">
+            The manuscript's opening—defenders on Eredhal's walls, the strange hum over a tower—arrived first, like memory surfacing whole. Each invasion escalates that tension: archers once trusted with the city's fate are replaced by trebuchets in the second assault, a quiet nod to machines superseding the human hands they were meant to serve.
+          </p>
+          <p class="mt-4 text-slate-300">
+            <em>The Iron Halo</em> began as an experiment in collaborative creation—how quickly could a story move if Shah partnered with emerging tools? He leaned on ChatGPT extensively, trading ideas with the model and shaping counterarguments until the narrative clicked. When a good idea lands, the scaffolding of a book can rise astonishingly fast.
           </p>
           <p class="mt-4 text-slate-300">
             The result is a war story that refuses easy victory: legacy passed like a blade, innovation as a mirror, and a journal written in the ash-quiet after. The book's imagery follows suit—iron rings, winter light, and folded cranes that tilt toward protection or conquest.
@@ -140,7 +215,7 @@
     </section>
 
     <!-- VISUAL GALLERY - The Story in Images -->
-    <section class="bg-black/30 backdrop-blur-sm py-16 md:py-24">
+    <section class="theme-layer py-16 md:py-24">
       <div class="max-w-6xl mx-auto px-6">
         <h2 class="text-2xl md:text-3xl font-semibold text-center reveal">The Story in Images</h2>
         <div class="divider my-6 max-w-md mx-auto"></div>
@@ -215,73 +290,25 @@
 
     <!-- THEMES -->
     <section id="themes" class="parallax" style="background-image:url('Gemini_Generated_Image_46gduv46gduv46gd (3).png');">
-      <div class="bg-black/75">
+      <div class="theme-layer-deep">
         <div class="max-w-6xl mx-auto px-6 py-16 md:py-24">
           <h2 class="text-2xl md:text-3xl font-semibold reveal">Themes that shaped the page</h2>
           <div class="divider my-4"></div>
           <ul class="grid md:grid-cols-3 gap-6 mt-8">
             <li class="glass p-6 rounded-xl reveal">
-              <h3 class="font-medium text-amber-300 text-lg">Hope vs. Fear</h3>
-              <p class="text-slate-300 mt-3">A weapon as promise and threat; leadership that steadies versus ambition that consumes.</p>
+              <h3 class="font-medium text-amber-300 text-lg">Guardian vs. Dominion</h3>
+              <p class="text-slate-300 mt-3">Two philosophies of power: one sworn to shelter, the other willing to scorch. Every decision in the siege walks the line between them.</p>
             </li>
             <li class="glass p-6 rounded-xl reveal">
-              <h3 class="font-medium text-amber-300 text-lg">Legacy &amp; Invention</h3>
-              <p class="text-slate-300 mt-3">Paper cranes that fold intent; a son inheriting a problem, not a solution.</p>
+              <h3 class="font-medium text-amber-300 text-lg">Molecular Warfare &amp; Invention</h3>
+              <p class="text-slate-300 mt-3">Immunology lab notes become strategic doctrine. The Halo behaves like an engineered immune response—precise, adaptive, and perilously easy to misfire.</p>
             </li>
             <li class="glass p-6 rounded-xl reveal">
-              <h3 class="font-medium text-amber-300 text-lg">The Cost of Victory</h3>
-              <p class="text-slate-300 mt-3">Even triumph can be a turning—toward consequences that outlive the battle.</p>
+              <h3 class="font-medium text-amber-300 text-lg">Human Hands vs. Machines</h3>
+              <p class="text-slate-300 mt-3">Archers give way to trebuchets in the second invasion, mirroring how creative work leaned on ChatGPT to accelerate the draft. Innovation is both ally and rival.</p>
             </li>
           </ul>
         </div>
-      </div>
-    </section>
-
-    <!-- SAMPLE / INTERACTIVE ACCORDION -->
-    <section id="sample" class="max-w-6xl mx-auto px-6 py-16 md:py-24">
-      <div class="md:flex md:items-center md:justify-between reveal">
-        <h2 class="text-2xl md:text-3xl font-semibold">Read a Sample</h2>
-        <p class="text-sm text-slate-400 mt-2 md:mt-0">Tap to expand chapters.</p>
-      </div>
-      <div class="divider my-4"></div>
-
-      <div class="space-y-3">
-        <details class="glass rounded-xl p-4 group reveal cursor-pointer">
-          <summary class="cursor-pointer font-medium flex items-center justify-between">
-            <span>Prologue — The Sky Above Eredhal</span>
-            <span class="text-xs text-slate-400 group-open:hidden">expand +</span>
-            <span class="text-xs text-slate-400 hidden group-open:inline">collapse −</span>
-          </summary>
-          <div class="mt-4 pl-4 border-l-2 border-amber-400/30">
-            <p class="text-slate-300 leading-relaxed">
-              "Then the sound came. Not a horn. Not a drum…" A strange hum threads the dusk as a shape rises over the tower and the defenders realize nothing in their training prepared them for this. The weapon that would change everything was about to be unleashed, and with it, the course of history itself.
-            </p>
-          </div>
-        </details>
-        <details class="glass rounded-xl p-4 group reveal cursor-pointer">
-          <summary class="cursor-pointer font-medium flex items-center justify-between">
-            <span>Chapter 2 — The Last Gift and the Silent Pact</span>
-            <span class="text-xs text-slate-400 group-open:hidden">expand +</span>
-            <span class="text-xs text-slate-400 hidden group-open:inline">collapse −</span>
-          </summary>
-          <div class="mt-4 pl-4 border-l-2 border-amber-400/30">
-            <p class="text-slate-300 leading-relaxed">
-              A six-year-old Aenan keeps vigil beside a cold lamp, clutching designs that smell of soot and oil; grief settles into purpose. The weight of his father's legacy rests in his small hands—blueprints for a weapon that could save a city, or destroy it.
-            </p>
-          </div>
-        </details>
-        <details class="glass rounded-xl p-4 group reveal cursor-pointer">
-          <summary class="cursor-pointer font-medium flex items-center justify-between">
-            <span>Battle Excerpt — First Halo Flight</span>
-            <span class="text-xs text-slate-400 group-open:hidden">expand +</span>
-            <span class="text-xs text-slate-400 hidden group-open:inline">collapse −</span>
-          </summary>
-          <div class="mt-4 pl-4 border-l-2 border-amber-400/30">
-            <p class="text-slate-300 leading-relaxed">
-              The machine's buzz is almost beneath hearing—until it isn't. In the aftermath, cheers blur against the weight of what can't be taken back. Victory tastes of ash and iron, and the defenders must reckon with what they've become.
-            </p>
-          </div>
-        </details>
       </div>
     </section>
 
@@ -300,11 +327,11 @@
             <strong>Spandan V. Shah</strong> is a Staff Scientist at the Center for Virology and Vaccine Research, Beth Israel Lahey Health / Harvard Medical School, with widely cited publications in immunology and related fields. That rigorous, systems-driven lens informs the moral engineering at the heart of <em>The Iron Halo</em>—an inquiry into what innovation does to the people who wield it.
           </p>
           <p class="mt-4 text-slate-300">
-            Drawing on his scientific background, Shah explores the intersection of invention and consequence, where brilliant minds must grapple with the weight of their creations. <em>The Iron Halo</em> is his debut novel, blending meticulous world-building with profound questions about legacy, power, and the price of progress.
+            Drawing on his scientific background, Shah explores the intersection of invention and consequence, where brilliant minds must grapple with the weight of their creations. His research into immune defenses—a daily meditation on molecular warfare—informs the siege's every decision, while an open collaboration with ChatGPT kept the drafting process agile and candid about the tools behind it. <em>The Iron Halo</em> is his debut novel, blending meticulous world-building with profound questions about legacy, power, and the price of progress.
           </p>
           <div class="mt-6 flex flex-wrap gap-3">
-            <a class="px-5 py-3 rounded border border-white/20 hover:bg-white/10 transition" href="#contact">Contact</a>
-            <a class="px-5 py-3 rounded bg-amber-500/90 hover:bg-amber-400 text-black font-medium transition" href="#buy">Buy the Book</a>
+            <a class="px-5 py-3 rounded border-theme bg-panel hover:shadow-soft transition" href="#contact">Contact</a>
+            <a class="px-5 py-3 rounded btn-accent font-medium transition hover:shadow-soft" href="#buy">Buy the Book</a>
           </div>
         </div>
       </div>
@@ -312,13 +339,13 @@
 
     <!-- BUY -->
     <section id="buy" class="parallax" style="background-image:url('Gemini_Generated_Image_46gduv46gduv46gd (2).png');">
-      <div class="bg-black/80 backdrop-blur-sm">
+      <div class="theme-layer-deep">
         <div class="max-w-6xl mx-auto px-6 py-16 md:py-24">
           <h2 class="text-2xl md:text-3xl font-semibold reveal text-center">Get the Book</h2>
           <div class="divider my-6 max-w-md mx-auto"></div>
           <p class="text-center text-slate-300 mb-8 reveal">Available now at major retailers</p>
           <div class="grid md:grid-cols-3 gap-6">
-            <a class="glass rounded-xl p-6 block hover:bg-white/10 transition-all transform hover:scale-105 reveal" target="_blank" rel="noopener noreferrer"
+            <a class="glass rounded-xl p-6 block transition-all transform hover:scale-105 hover:shadow-soft reveal" target="_blank" rel="noopener noreferrer"
                href="https://www.amazon.com/s?k=The+Iron+Halo+Spandan+Shah">
               <div class="flex items-center gap-3 mb-3">
                 <svg class="w-8 h-8 text-amber-400" fill="currentColor" viewBox="0 0 24 24">
@@ -329,7 +356,7 @@
               </div>
               <p class="text-slate-300 text-sm">Order your copy from Amazon in paperback, hardcover, or Kindle edition.</p>
             </a>
-            <a class="glass rounded-xl p-6 block hover:bg-white/10 transition-all transform hover:scale-105 reveal" target="_blank" rel="noopener noreferrer"
+            <a class="glass rounded-xl p-6 block transition-all transform hover:scale-105 hover:shadow-soft reveal" target="_blank" rel="noopener noreferrer"
                href="https://bookshop.org/search?keywords=The+Iron+Halo+Spandan+Shah">
               <div class="flex items-center gap-3 mb-3">
                 <svg class="w-8 h-8 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -339,7 +366,7 @@
               </div>
               <p class="text-slate-300 text-sm">Support independent bookstores with a purchase from Bookshop.org.</p>
             </a>
-            <a class="glass rounded-xl p-6 block hover:bg-white/10 transition-all transform hover:scale-105 reveal" target="_blank" rel="noopener noreferrer"
+            <a class="glass rounded-xl p-6 block transition-all transform hover:scale-105 hover:shadow-soft reveal" target="_blank" rel="noopener noreferrer"
                href="https://www.barnesandnoble.com/s/The%20Iron%20Halo%20Spandan%20Shah">
               <div class="flex items-center gap-3 mb-3">
                 <svg class="w-8 h-8 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -363,16 +390,16 @@
         <p class="text-slate-300 mb-2">For readings, interviews, and rights queries, drop a line:</p>
         <p class="text-sm text-slate-400 mb-6">We'd love to hear from book clubs, podcasters, reviewers, and media outlets interested in The Iron Halo.</p>
         <form id="contactForm" class="grid md:grid-cols-3 gap-4">
-          <input name="name" class="w-full rounded-lg bg-white/5 border border-white/10 px-4 py-3 focus:border-amber-400 focus:outline-none transition" placeholder="Your name" required>
-          <input name="email" type="email" class="w-full rounded-lg bg-white/5 border border-white/10 px-4 py-3 focus:border-amber-400 focus:outline-none transition" placeholder="Email" required>
-          <button type="submit" class="rounded-lg bg-amber-500/90 hover:bg-amber-400 text-black font-medium px-4 py-3 transition">Request Info</button>
+          <input name="name" class="form-field w-full" placeholder="Your name" required>
+          <input name="email" type="email" class="form-field w-full" placeholder="Email" required>
+          <button type="submit" class="rounded-lg btn-accent font-medium px-5 py-3 transition hover:shadow-soft">Request Info</button>
         </form>
         <p id="contactMsg" class="text-sm text-amber-300 mt-3 hidden">✓ Thanks! We'll be in touch shortly.</p>
       </div>
     </section>
   </main>
 
-  <footer class="text-center text-slate-400 text-sm py-10 border-t border-white/5">
+  <footer class="text-center text-slate-400 text-sm py-10 border-theme-top">
     <p>© <span id="year"></span> Spandan Shah. All rights reserved.</p>
     <p class="mt-2 text-xs">Themes & imagery inspired by the novel's motifs of iron, embers, and folded intent.</p>
   </footer>
@@ -396,85 +423,97 @@
       });
     });
 
-    // Hope/Fear theme toggle - ENHANCED
+    // Guardian/Dominion theme toggle - ENHANCED
     const themeBtn = document.getElementById('themeBtn');
-    themeBtn.addEventListener('click', () => {
-      const isFear = document.body.classList.toggle('fear');
-      const mode = isFear ? 'Fear' : 'Hope';
-      const color = isFear ? '#ef4444' : '#f59e0b';
-      
-      // Update button text
+    const bodyEl = document.body;
+    const updateThemeLabel = () => {
+      const mode = bodyEl.classList.contains('dominion') ? 'Dominion' : 'Guardian';
       themeBtn.textContent = `Mode: ${mode}`;
-      
+    };
+    updateThemeLabel();
+
+    themeBtn.addEventListener('click', () => {
+      const isDominion = !bodyEl.classList.contains('dominion');
+      bodyEl.classList.toggle('dominion', isDominion);
+      bodyEl.classList.toggle('guardian', !isDominion);
+
+      const styles = getComputedStyle(document.documentElement);
+      const accent = styles.getPropertyValue('--accent').trim() || '#f97316';
+      const accentSecondary = styles.getPropertyValue('--accent-2').trim() || '#0ea5e9';
+      const fg = styles.getPropertyValue('--fg').trim() || '#ffffff';
+      const mode = isDominion ? 'Dominion' : 'Guardian';
+
+      updateThemeLabel();
+
       // Screen flash effect
       const flash = document.createElement('div');
       flash.className = 'screen-flash';
-      flash.style.background = color;
+      flash.style.background = `radial-gradient(circle, ${accent}66 0%, ${accent}00 70%)`;
       flash.style.animation = 'theme-flash 0.8s ease-out';
       document.body.appendChild(flash);
       setTimeout(() => flash.remove(), 800);
-      
+
       // Shake the entire page briefly
       document.body.style.animation = 'shake 0.4s ease';
       setTimeout(() => document.body.style.animation = '', 400);
-      
+
       // Pulse all glass elements
       document.querySelectorAll('.glass').forEach(el => {
         el.style.animation = 'pulse-grow 0.6s ease';
         setTimeout(() => el.style.animation = '', 600);
       });
-      
+
       // Play a theme transition sound
       try {
         const ctx = new (window.AudioContext || window.webkitAudioContext)();
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
-        
-        osc.type = isFear ? 'square' : 'sine';
-        osc.frequency.value = isFear ? 150 : 440;
+
+        osc.type = isDominion ? 'square' : 'sine';
+        osc.frequency.value = isDominion ? 150 : 440;
         gain.gain.value = 0.03;
-        
+
         osc.connect(gain);
         gain.connect(ctx.destination);
         osc.start();
-        
+
         // Sweep frequency
         const t = ctx.currentTime;
-        osc.frequency.exponentialRampToValueAtTime(isFear ? 80 : 880, t + 0.3);
+        osc.frequency.exponentialRampToValueAtTime(isDominion ? 80 : 880, t + 0.3);
         gain.gain.exponentialRampToValueAtTime(0.00001, t + 0.4);
-        
+
         setTimeout(() => { osc.stop(); ctx.close(); }, 500);
       } catch(e) {}
-      
+
       // Create expanding ripple effect
       const ripple = document.createElement('div');
       ripple.style.position = 'fixed';
       ripple.style.borderRadius = '50%';
-      ripple.style.border = `4px solid ${color}`;
+      ripple.style.border = `4px solid ${accent}`;
       ripple.style.pointerEvents = 'none';
       ripple.style.zIndex = '9999';
-      
+
       const btnRect = themeBtn.getBoundingClientRect();
       const centerX = btnRect.left + btnRect.width / 2;
       const centerY = btnRect.top + btnRect.height / 2;
-      
+
       ripple.style.left = centerX + 'px';
       ripple.style.top = centerY + 'px';
       ripple.style.width = '0px';
       ripple.style.height = '0px';
       ripple.style.transform = 'translate(-50%, -50%)';
-      
+
       document.body.appendChild(ripple);
-      
+
       // Animate ripple expansion
       let size = 0;
       let opacity = 1;
       const maxSize = Math.max(window.innerWidth, window.innerHeight) * 2;
-      
+
       const expandRipple = () => {
         size += 50;
         opacity -= 0.02;
-        
+
         if (size < maxSize && opacity > 0) {
           ripple.style.width = size + 'px';
           ripple.style.height = size + 'px';
@@ -485,7 +524,7 @@
         }
       };
       requestAnimationFrame(expandRipple);
-      
+
       // Show mode banner
       const banner = document.createElement('div');
       banner.style.position = 'fixed';
@@ -494,29 +533,29 @@
       banner.style.transform = 'translate(-50%, -50%) scale(0)';
       banner.style.zIndex = '10000';
       banner.style.padding = '30px 60px';
-      banner.style.background = `linear-gradient(135deg, ${color}22, ${color}44)`;
+      banner.style.background = `linear-gradient(135deg, ${accent}22, ${accentSecondary}33)`;
       banner.style.backdropFilter = 'blur(10px)';
-      banner.style.border = `3px solid ${color}`;
+      banner.style.border = `3px solid ${accent}`;
       banner.style.borderRadius = '20px';
-      banner.style.color = '#fff';
+      banner.style.color = fg || '#ffffff';
       banner.style.fontSize = '3rem';
       banner.style.fontWeight = 'bold';
-      banner.style.textShadow = `0 0 20px ${color}`;
-      banner.style.boxShadow = `0 0 50px ${color}, inset 0 0 30px ${color}33`;
+      banner.style.textShadow = `0 0 20px ${accent}`;
+      banner.style.boxShadow = `0 0 50px ${accent}, inset 0 0 30px ${accent}33`;
       banner.textContent = mode.toUpperCase();
       banner.style.transition = 'all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
-      
+
       document.body.appendChild(banner);
-      
+
       setTimeout(() => {
         banner.style.transform = 'translate(-50%, -50%) scale(1)';
       }, 50);
-      
+
       setTimeout(() => {
         banner.style.transform = 'translate(-50%, -50%) scale(0)';
         banner.style.opacity = '0';
       }, 1500);
-      
+
       setTimeout(() => banner.remove(), 2000);
     });
 
